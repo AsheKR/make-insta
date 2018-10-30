@@ -15,6 +15,12 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = os.path.dirname(BASE_DIR)
+
+# FOR MEDIA
+MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
+MEDIA_URL = '/.media/'
+
+# FOR SECRET
 SECRET_DIR = os.path.join(ROOT_DIR, '.secrets')
 
 SECRETS_JSON = json.load(open(os.path.join(SECRET_DIR, 'base.json')))
@@ -37,6 +43,7 @@ AUTH_USER_MODEL = 'members.User'
 
 INSTALLED_APPS = [
     'members',
+    'posts',
 
     'django.contrib.admin',
     'django.contrib.auth',
