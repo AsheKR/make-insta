@@ -20,6 +20,9 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['-pk']
+
 
 class Comment(models.Model):
     author = models.ForeignKey(
