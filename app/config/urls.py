@@ -22,7 +22,8 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('posts/', include('posts.urls')),
-    path('', lambda request: redirect('posts:post_list'))
+    path('', lambda request: redirect('posts:post_list')),
+    path('members/', include('members.urls')),
 ]
 
 urlpatterns += static(
