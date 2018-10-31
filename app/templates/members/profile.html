@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if messages %}
+<ul class="messages mt-1">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="row mb-2">
+    <div class="col-4">
+        <a class="btn btn-primary my-2 my-sm-0" href="{% url 'posts:my_posts' %}">내 게시물 목록({{ user.post_set.all|length }})</a>
+    </div>
+    <div class="col-4">
+        <a class="btn btn-success my-2 my-sm-0" >내 팔로워 목록</a>
+    </div>
+    <div class="col-4">
+        <a class="btn btn-warning my-2 my-sm-0" >내 팔로잉 목록</a>
+    </div>
+
+</div>
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-lg btn-block btn-secondary">전송</button>
+</form>
+
+{% endblock %}

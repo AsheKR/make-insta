@@ -57,7 +57,7 @@ def profile(request):
         'form': form
     }
 
-    return render(request, 'posts/profile.html', context)
+    return render(request, 'members/profile.html', context)
 
 
 def signup_view(request):

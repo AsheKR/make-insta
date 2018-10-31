@@ -2,11 +2,14 @@
 
 {% block content %}
 {% for post in posts %}
-<div class="row mb-2" id="post-{{ post.pk }}">
+<div class="mb-2" id="post-{{ post.pk }}">
     <div class="card" style="width: 18rem;">
         <img class="card-img-top" src="{{ post.photo.url }}" alt="Card image cap">
         <div class="card-body">
-            <h5 class="card-title">{{ post.author }}</h5>
+            <h5 class="card-title">
+                <img src="{{ post.photo.url }}" alt="" style="width:20px;height:20px;">
+                {{ post.author }}
+            </h5>
             <p class="card-text">
                 <a class="btn btn-success my-2 my-sm-0" href="{% url 'posts:post_like_toggle' post_pk=post.pk %}">좋아요</a>
                 {% if post.like_users.all %}

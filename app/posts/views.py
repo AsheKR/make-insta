@@ -1,5 +1,6 @@
 import re
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -74,3 +75,17 @@ def post_like_toggle(request, post_pk):
     url = reverse('posts:post_list')
 
     return redirect(url + f'#post-{post_pk}')
+
+
+def my_posts(request):
+    posts = Post.objects.filter(author=request.user)
+
+    if not posts:
+        messages.warning(request, '작성한 포스트가 없습니다..')
+        return redirect('members:profile')
+
+    context = {
+        'posts': posts
+    }
+
+    return render(request, 'posts/post_list.html', context)
