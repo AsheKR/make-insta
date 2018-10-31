@@ -7,6 +7,13 @@
         <img class="card-img-top" src="{{ post.photo.url }}" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">{{ post.author }}</h5>
+            {% if post.comment_set.all %}
+            {% for comment in post.comment_set.all %}
+            <p class="card-text">
+                {{ comment.author }} : {{ comment.content }}
+            </p>
+            {% endfor %}
+            {% endif %}
         </div>
     </div>
 </div>
