@@ -52,7 +52,7 @@ class Comment(models.Model):
 
     def save(self, *args, **kwargs):
         def save_html():
-            self._html = re.sub(self.TAG_REG_COMPILE, r"<a href='/explore/search/\1/'>#\1</a>", self.content)
+            self._html = re.sub(self.TAG_REG_COMPILE, r"<a href='/explore/tags/\1/'>#\1</a>", self.content)
 
         def save_tags():
             tags = [HashTag.objects.get_or_create(tag_name=name)[0] for name in re.findall(self.TAG_REG_COMPILE, self.content)]

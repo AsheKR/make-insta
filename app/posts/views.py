@@ -1,3 +1,5 @@
+import re
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -45,3 +47,21 @@ def comment_create(request, post_pk):
     url = reverse('posts:post_list')
 
     return redirect(url + f'#post-{post_pk}')
+
+
+def tag_form_search(request):
+    keyword = request.GET.get('search_keyword')
+    if keyword:
+        sub_keyword = re.sub(r'#|\s+', '', keyword)
+        return redirect('tag_search', sub_keyword)
+    else:
+        return redirect('posts:post_list')
+
+
+def tag_search(request, tag_name):
+    posts = Post.objects.filter(comment__hash_tag__tag_name=tag_name).distinct()
+
+    context = {
+        'posts': posts
+    }
+    return render(request, 'posts/post_list.html', context)

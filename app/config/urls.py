@@ -19,11 +19,15 @@ from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import path, include
 
+from posts import views as post_view
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('posts/', include('posts.urls')),
     path('', lambda request: redirect('posts:post_list')),
     path('members/', include('members.urls')),
+    path('explore/tags/', post_view.tag_form_search, name='tag_form_search'),
+    path('explore/tags/<str:tag_name>/', post_view.tag_search, name='tag_search'),
 ]
 
 urlpatterns += static(
