@@ -2,7 +2,7 @@
 
 {% block content %}
 {% for post in posts %}
-<div class="row mb-2">
+<div class="row mb-2" id="post-{{ post.pk }}">
     <div class="card" style="width: 18rem;">
         <img class="card-img-top" src="{{ post.photo.url }}" alt="Card image cap">
         <div class="card-body">
@@ -10,7 +10,7 @@
             {% if post.comment_set.all %}
             {% for comment in post.comment_set.all %}
             <p class="card-text">
-                {{ comment.author }} : {{ comment.content }}
+                {{ comment.author }} : {{ comment.html|safe }}
             </p>
             {% endfor %}
             {% endif %}

@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from posts.forms import PostCreate, CommentCreate
 from posts.models import Post
@@ -40,4 +41,6 @@ def comment_create(request, post_pk):
         if form.is_valid():
             form.save(author=request.user, post=post_pk)
 
-    return redirect('posts:post_list')
+    url = reverse('posts:post_list')
+
+    return redirect(url + f'#post-{post_pk}')
