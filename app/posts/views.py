@@ -34,6 +34,7 @@ def post_create(request):
     return render(request, 'posts/post_create.html', context)
 
 
+@login_required
 def comment_create(request, post_pk):
     if request.method == 'POST':
         form = CommentCreate(request.POST)
