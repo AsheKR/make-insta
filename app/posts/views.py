@@ -1,14 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from posts.forms import PostCreate
+from posts.forms import PostCreate, CommentCreate
 from posts.models import Post
 
 
 def post_list(request):
     posts = Post.objects.all()
+    form = CommentCreate()
     context = {
-        'posts': posts
+        'posts': posts,
+        'comment_form': form,
     }
     return render(request, 'posts/post_list.html', context)
 
@@ -29,3 +31,13 @@ def post_create(request):
     }
 
     return render(request, 'posts/post_create.html', context)
+
+
+def comment_create(request, post_pk):
+    if request.method == 'POST':
+        form = CommentCreate(request.POST)
+
+        if form.is_valid():
+            form.save(author=request.user, post=post_pk)
+
+    return redirect('posts:post_list')

@@ -7,4 +7,5 @@ app_name = 'posts'
 urlpatterns = [
     path('', views.post_list, name='post_list'),
     path('create/', views.post_create, name='post_create'),
+    path('comment/<int:post_pk>', views.comment_create, name='comment_create'),
 ]

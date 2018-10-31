@@ -14,6 +14,17 @@
             </p>
             {% endfor %}
             {% endif %}
+            {% if user.is_authenticated %}
+            <p class="card-text">
+            <form action="{% url 'posts:comment_create' post_pk=post.pk %}" method="POST">
+                <div class="form-group">
+                    {% csrf_token %}
+                    {{ comment_form }}
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">댓글작성</button>
+                </div>
+            </form>
+            </p>
+            {% endif %}
         </div>
     </div>
 </div>

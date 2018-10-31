@@ -1,6 +1,30 @@
 from django import forms
+from django.shortcuts import get_object_or_404
 
-from posts.models import Post
+from posts.models import Post, Comment
+
+
+class CommentCreate(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = [
+            'content'
+        ]
+        widgets = {
+            'content': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'rows': 3,
+                }
+            )
+        }
+
+    def save(self, *args, **kwargs):
+        comment = super().save(commit=False)
+        comment.author = kwargs.get('author')
+        comment.post = get_object_or_404(Post, pk=kwargs.get('post'))
+        comment.save()
+        return comment
 
 
 class PostCreate(forms.Form):
