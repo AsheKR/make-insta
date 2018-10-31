@@ -7,6 +7,12 @@
         <img class="card-img-top" src="{{ post.photo.url }}" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">{{ post.author }}</h5>
+            <p class="card-text">
+                <a class="btn btn-success my-2 my-sm-0" href="{% url 'posts:post_like_toggle' post_pk=post.pk %}">좋아요</a>
+                {% if post.like_users.all %}
+                    {{ post.like_users.all|join:", " }}님이 좋아요를 눌렀습니다.
+                {% endif %}
+            </p>
             {% if post.comment_set.all %}
             {% for comment in post.comment_set.all %}
             <p class="card-text">

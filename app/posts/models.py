@@ -25,6 +25,12 @@ class Post(models.Model):
     class Meta:
         ordering = ['-pk']
 
+    def post_like_toggle(self, user):
+        like_post, now_like = PostLike.objects.get_or_create(user=user, post=self)
+        if not now_like:
+            like_post.delete()
+        return like_post
+
 
 class Comment(models.Model):
     TAG_REG_COMPILE = re.compile(r'#(\w+)')

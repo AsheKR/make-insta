@@ -1,11 +1,11 @@
 import re
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from posts.forms import PostCreate, CommentCreate
-from posts.models import Post
+from posts.models import Post, PostLike
 
 
 def post_list(request):
@@ -65,3 +65,12 @@ def tag_search(request, tag_name):
         'posts': posts
     }
     return render(request, 'posts/post_list.html', context)
+
+
+def post_like_toggle(request, post_pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    post.post_like_toggle(request.user)
+
+    url = reverse('posts:post_list')
+
+    return redirect(url + f'#post-{post_pk}')
