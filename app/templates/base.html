@@ -38,6 +38,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'members:login_view' %}">로그인</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'members:signup_view' %}">회원가입</a>
+                </li>
                 {% endif %}
             </ul>
             <form class="form-inline my-2 my-lg-0" action="{% url 'tag_form_search' %}">

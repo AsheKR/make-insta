@@ -4,6 +4,7 @@
 <form action="" method="POST">
     {% csrf_token %}
     {{ form }}
-    <button type="submit" class="btn btn-block btn-primary btn-lg">로그인</button>
+    <button type="submit" class="btn btn-block btn-secondary btn-lg mb-2">로그인</button>
 </form>
+<a class="btn btn-block btn-primary btn-lg" href="https://www.facebook.com/v3.2/dialog/oauth?client_id={{ FACEBOOK_APP_ID }}&redirect_uri=http://localhost:8000/members/facebook_login">페이스북 로그인</a>
 {% endblock %}

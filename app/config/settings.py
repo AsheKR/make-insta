@@ -35,6 +35,8 @@ MEDIA_URL = '/.media/'
 SECRET_DIR = os.path.join(ROOT_DIR, '.secrets')
 
 SECRETS_JSON = json.load(open(os.path.join(SECRET_DIR, 'base.json')))
+FACEBOOK_APP_ID = SECRETS_JSON['FACEBOOK_APP_ID']
+FACEBOOK_APP_SECRET = SECRETS_JSON['FACEBOOK_APP_SECRET']
 
 
 # Quick-start development settings - unsuitable for production
@@ -51,6 +53,11 @@ ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'members.User'
 
 # Application definition
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'members.backends.FacebookBackend',
+]
+
 
 INSTALLED_APPS = [
     'members',

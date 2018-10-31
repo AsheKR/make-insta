@@ -1,8 +1,17 @@
-from django.contrib.auth import authenticate, login, logout
+import imghdr
+import json
+
+import requests
+from django.conf import settings
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from members.forms import LoginForm, ProfileForm
+from members.forms import LoginForm, ProfileForm, SignupForm
+
+User = get_user_model()
 
 
 def login_view(request):
@@ -19,7 +28,8 @@ def login_view(request):
         form = LoginForm()
 
     context = {
-        'form': form
+        'form': form,
+        'FACEBOOK_APP_ID': settings.FACEBOOK_APP_ID
     }
 
     return render(request, 'members/login.html', context)
@@ -48,3 +58,29 @@ def profile(request):
     }
 
     return render(request, 'posts/profile.html', context)
+
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('posts:post_list')
+    else:
+        form = SignupForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'members/signup.html', context)
+
+
+def facebook_login(request):
+    user = authenticate(request, facebook_request_token=request.GET.get('code'))
+
+    if user:
+        login(request, user)
+        return redirect('posts:post_list')
+
+    return redirect('members:login_view')
