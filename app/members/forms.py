@@ -36,3 +36,16 @@ class LoginForm(forms.Form):
         if self.errors:
             raise ValueError('폼의 데이터 유효성 검증에 실패하였습니다.')
         return self._user
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'first_name',
+            'last_name',
+            'email',
+            'img_profile',
+            'site',
+            'introduce',
+        ]
