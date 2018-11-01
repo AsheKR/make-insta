@@ -10,4 +10,5 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('signup/', views.signup_view, name='signup_view'),
     path('facebook_login/', views.facebook_login, name='facebook_login'),
+    path('follow/<int:user_pk>', views.follow_toggle, name='follow_toggle'),
 ]

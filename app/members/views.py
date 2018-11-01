@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from members.forms import LoginForm, ProfileForm, SignupForm
 
@@ -84,3 +84,9 @@ def facebook_login(request):
         return redirect('posts:post_list')
 
     return redirect('members:login_view')
+
+
+def follow_toggle(request, user_pk):
+    user = get_object_or_404(User, pk=user_pk)
+    request.user.follow_toggle(user)
+    return redirect('members:profile')

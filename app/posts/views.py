@@ -77,8 +77,8 @@ def post_like_toggle(request, post_pk):
     return redirect(url + f'#post-{post_pk}')
 
 
-def my_posts(request):
-    posts = Post.objects.filter(author=request.user)
+def my_posts(request, user_pk):
+    posts = Post.objects.filter(author=user_pk)
 
     if not posts:
         messages.warning(request, '작성한 포스트가 없습니다..')

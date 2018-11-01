@@ -12,13 +12,13 @@
 
 <div class="row mb-2">
     <div class="col-4">
-        <a class="btn btn-primary my-2 my-sm-0" href="{% url 'posts:my_posts' %}">내 게시물 목록({{ user.post_set.all|length }})</a>
+        <a class="btn btn-primary my-2 my-sm-0" href="{% url 'posts:my_posts' user_pk=user.pk %}">내 게시물 목록({{ user.post_set.all|length }})</a>
     </div>
     <div class="col-4">
-        <a class="btn btn-success my-2 my-sm-0" >내 팔로워 목록</a>
+        <button class="btn btn-success my-2 my-sm-0" data-toggle="modal" data-target="#followers">날 팔로우한 사람 목록</button>
     </div>
     <div class="col-4">
-        <a class="btn btn-warning my-2 my-sm-0" >내 팔로잉 목록</a>
+        <button class="btn btn-success my-2 my-sm-0" data-toggle="modal" data-target="#following">내가 팔로우한 사람 목록</button>
     </div>
 
 </div>
@@ -32,5 +32,53 @@
     {% endfor %}
     <button type="submit" class="btn btn-lg btn-block btn-secondary">전송</button>
 </form>
+
+<div class="modal fade" id="followers" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">나를 팔로우 한 사람 목록</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% for follower in user.follower_list %}
+          <li>
+              <a href="{% url 'posts:my_posts' user_pk=follower.pk %}">{{ follower.username }}</a>
+              <a href="{% url 'members:follow_toggle' user_pk=follower.pk%}" class="btn {% if follower in user.following_list %}btn-success">언팔로우{% else %}">팔로우{% endif %}</a>
+          </li>
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="following" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">내가 팔로우 한 사람 목록</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% for following in user.following_list %}
+          <li>
+            <a href="{% url 'posts:my_posts' user_pk=following.pk %}">{{ following.username }}</a>
+            <a href="{% url 'members:follow_toggle' user_pk=following.pk %}" class="btn {% if following in user.following_list %}btn-success">언팔로우{% else %}">팔로우{% endif %}</a>
+          </li>
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
